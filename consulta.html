@@ -135,7 +135,7 @@
 <div id="toast"><span id="toast-msg"></span></div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbzXpSOKF_ACytPKaGhAQTuTQMcUiNxdzUcylsiyGPIzK0553DKUWRg9rCDbF8Oai6lQCg/exec';
+const API_URL = 'SUA_URL_DO_APPS_SCRIPT_AQUI';
 let todosGanhadores = [];
 let filtroAtual = 'todos';
 let entregaAtualId = null;
@@ -154,7 +154,10 @@ async function api(acao,dados={}){
   return r.json();
 }
 async function apiPost(acao,dados){
-  const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({acao,...dados})});
+  // Apps Script nao suporta CORS em POST — usamos GET com params
+  const p=new URLSearchParams({acao});
+  Object.keys(dados).forEach(k=>p.append(k, dados[k]??''));
+  const r=await fetch(API_URL+'?'+p);
   return r.json();
 }
 
